@@ -20,6 +20,7 @@ import FileContentStorage from 'h5p-nodejs-library/build/examples/implementation
 import User from 'h5p-nodejs-library/build/examples/implementation/User'
 import examples from './examples.json'
 import editorRenderer from './editorRenderer'
+import playerRenderer from './playerRenderer'
 
 const exec = util.promisify(require('child_process').exec)
 const H5PPlayer = H5PNodeLibrary.Player
@@ -135,12 +136,14 @@ const startup = async () => {
     Promise.all([
       h5pEditor.contentManager.loadContent(req.query.contentId),
       h5pEditor.contentManager.loadH5PJson(req.query.contentId)
-    ]).then(([ contentObject, h5pObject ]) =>
-      new H5PPlayer(libraryLoader)
+    ]).then(([ contentObject, h5pObject ]) => {
+      const player = new H5PPlayer(libraryLoader)
+      player.useRenderer(playerRenderer)
+      player
         .render(req.query.contentId, contentObject, h5pObject)
         .then(h5p_page => res.end(h5p_page))
         .catch(error => res.status(500).end(error.message))
-    )
+    })
   })
 
   server.get('/download', async (req, res) => {
