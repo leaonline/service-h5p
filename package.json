@@ -1,0 +1,26 @@
+{
+  "name": "leaonline-items",
+  "private": true,
+  "scripts": {
+    "start": "meteor --port=8080 --settings=settings.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.3.4",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6-alpha.6",
+    "h5p-nodejs-library": "^0.8.0",
+    "meteor-node-stubs": "^0.4.1",
+    "path": "^0.12.7"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  }
+}
