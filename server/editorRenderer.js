@@ -127,12 +127,19 @@ var ns = H5PEditor;
                     })
                     .done(function(...args) {
                       console.log('done', ...args)
+                      if (!window.location.search) {
+                        const content = JSON.parse(args[0])
+                        prompt("Please copy this ID and paste it into the form in your backend. This window will close, once you confirm or abort this prompt.", content.contentId);
+                      }
                     })
                     .fail(function(...args) {
                       console.log('error', ...args)
                     })
                     .always(function(...args) {
                       console.log('always', ...args)
+                      if (!window.location.search) {
+                        window.close()
+                      }
                     });
 
                     return event.preventDefault();
