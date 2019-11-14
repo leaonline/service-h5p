@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { WebApp } from 'meteor/webapp'
+import { HTTP } from 'meteor/http'
 
 import H5PNodeLibrary from 'h5p-nodejs-library'
 import express from 'express'
@@ -331,6 +332,25 @@ const startup = async () => {
         break
     }
   })
+
+  const { targetUrl } = Meteor.settings
+  const absoluteUrl = Meteor.absoluteUrl()
+  const origin = absoluteUrl.substring(0, absoluteUrl.length -1)
+
+  server.post('/response', Meteor.bindEnvironment(function (req, res, next) {
+    HTTP.post(targetUrl, {
+      data: req.body,
+      headers: { origin }
+    }, (err, response) => {
+      if (err) {
+        console.error(err)
+        res.status(err.statusCode || 500).end()
+      } else {
+        console.log(targetUrl, response.statusCode)
+        res.status(response.statusCode).end()
+      }
+    })
+  }))
 
   // we don't listen to the port here, because Meteor has port listening
   // already been included in their middleware layer. Uses --PORT=8080 env var instead.

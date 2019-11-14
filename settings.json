@@ -2,5 +2,6 @@
   "allowedOrigins": [
     "http://localhost:3000",
     "http://localhost:5050"
-  ]
+  ],
+  "targetUrl": "http://localhost:6060/response"
 }
