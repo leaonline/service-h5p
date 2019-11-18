@@ -23,6 +23,7 @@ export default model => `<!doctype html>
       params.userId = urlParams.get('userId')
       params.sessionId = urlParams.get('sessionId')
       params.taskId = urlParams.get('taskId')
+      params.page = urlParams.get('page')
       params.contentId = contentId
       
       const cid = 'cid-' + contentId
@@ -35,8 +36,8 @@ export default model => `<!doctype html>
       if (library.indexOf('Blanks') > -1) {
         contentType = 'blanks'
         const allInputs = document.querySelectorAll('input');
-        allInputs.forEach(function(inp) {
-            responses.push(inp.value)
+        allInputs.forEach(function(inp, index) {
+            responses.push(inp.value || '__undefined__')
         })
       }
       
